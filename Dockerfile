@@ -68,8 +68,6 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     && chmod 750 /crt \
     && openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /crt/nextcloud.key -out /crt/nextcloud.crt -subj "/C=DE/ST=H/L=F/O=Nextcloud/OU=www.nextcloud.org/CN=nextcloud" \ 
     && chmod 640 /crt/* \
-	&& sed -i.bak '/^ *upload_max_filesize/s/=.*/= 2048M/' /etc/php/7.2/apache2/php.ini \
-	&& sed -i.bak '/^ *post_max_size/s/=.*/= 2058M/' /etc/php/7.2/apache2/php.ini \
     && wget -q https://download.nextcloud.com/server/releases/latest.zip -O /tmp/nextcloud.zip \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
@@ -95,6 +93,7 @@ RUN chmod +x ${start_scripts_path}/01_user_config.sh \
 CMD ["/start.sh"]
        
 #Add Apache configuration
+COPY php.ini /etc/php/7.2/apache2/php.ini
 COPY nextcloud.conf /etc/apache2/sites-available/nextcloud.conf
 RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 	&& a2ensite nextcloud
