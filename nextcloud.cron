@@ -1,0 +1,5 @@
+# /etc/cron.d/nextcloud: crontab entries for nextcloud
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0,15,30,45 * * * * www-data php -f /var/www/nextcloud/cron.php
