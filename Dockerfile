@@ -102,6 +102,6 @@ RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 	
 COPY nextcloud.cron /etc/cron.d/nextcloud
 
-VOLUME /var/www/nextcloud/data /var/www/nextcloud/config /var/www/nextcloud/capp
+VOLUME /var/www/nextcloud/data /var/www/nextcloud/config /var/www/nextcloud/capps
 
 EXPOSE 443/tcp
