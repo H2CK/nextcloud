@@ -15,6 +15,8 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     apache2 \
     apache2-utils \
     libexpat1 \
+	imagemagick \
+	gpsbabel \
     ssl-cert \
     php \
     libapache2-mod-php \
