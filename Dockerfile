@@ -58,6 +58,7 @@ RUN apt-get upgrade -qy && apt-get install -qy \
 	smbclient \
 	wget \
     unzip \
+	sudo \
     && a2enmod ssl \
     && a2enmod rewrite \
     && a2enmod env \
