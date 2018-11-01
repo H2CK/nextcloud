@@ -65,18 +65,20 @@ RUN apt-get upgrade -qy && apt-get install -qy \
 	&& a2enmod dir \
 	&& a2enmod mime \
 	&& a2enmod headers \
+	&& a2enmod setenvif \
     && a2dissite 000-default \
 	&& phpenmod imap \
     && mkdir /crt \
     && chmod 750 /crt \
     && openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /crt/nextcloud.key -out /crt/nextcloud.crt -subj "/C=DE/ST=H/L=F/O=Nextcloud/OU=www.nextcloud.org/CN=nextcloud" \ 
     && chmod 640 /crt/* \
-    && wget -q https://download.nextcloud.com/server/releases/nextcloud-13.0.6.zip -O /tmp/nextcloud.zip \
+    && wget -q https://download.nextcloud.com/server/releases/nextcloud-14.0.3.zip -O /tmp/nextcloud.zip \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
     && mv /tmp/nextcloud /var/www/nextcloud \
     && chown -R www-data:www-data /var/www/nextcloud \
-    && chmod -R 770 /var/www/nextcloud \
+	&& find /var/www/nextcloud/ -type d -exec chmod 750 {} \; \
+    && find /var/www/nextcloud/ -type f -exec chmod 640 {} \; \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* /var/cache/* /var/tmp/* /tmp/* \
     && groupadd docker-data \
@@ -86,11 +88,13 @@ COPY supervisord.conf ${supervisor_conf}
 COPY 01_user_config.sh ${start_scripts_path}
 COPY 02_auto_update.sh ${start_scripts_path}
 COPY 03_set_a2port.sh ${start_scripts_path}
+COPY 04_run_occ_commands.sh ${start_scripts_path}
 
 COPY start.sh /start.sh
 RUN chmod +x ${start_scripts_path}/01_user_config.sh \
     && chmod +x ${start_scripts_path}/02_auto_update.sh \
     && chmod +x ${start_scripts_path}/03_set_a2port.sh \
+	&& chmod +x ${start_scripts_path}/04_run_occ_commands.sh \
     && chmod +x /start.sh
 
 CMD ["/start.sh"]
