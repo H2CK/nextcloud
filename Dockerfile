@@ -73,7 +73,7 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     && chmod 750 /crt \
     && openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /crt/nextcloud.key -out /crt/nextcloud.crt -subj "/C=DE/ST=H/L=F/O=Nextcloud/OU=www.nextcloud.org/CN=nextcloud" \ 
     && chmod 640 /crt/* \
-    && wget -q https://download.nextcloud.com/server/releases/nextcloud-14.0.4.zip -O /tmp/nextcloud.zip \
+    && wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.0.zip -O /tmp/nextcloud.zip \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
     && mv /tmp/nextcloud /var/www/nextcloud \
