@@ -106,6 +106,9 @@ COPY php.ini /etc/php/7.2/apache2/php.ini
 COPY nextcloud.conf /etc/apache2/sites-available/nextcloud.conf
 RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 	&& a2ensite nextcloud
+
+COPY nextcloud.conf /ncapache_secure.conf
+COPY nextcloud_insecure.conf /ncapache_insecure.conf
 	
 COPY nextcloud.cron /etc/cron.d/nextcloud
 
