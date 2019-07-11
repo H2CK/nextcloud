@@ -16,28 +16,28 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     apache2 \
     apache2-utils \
     libexpat1 \
-	imagemagick \
-	gpsbabel \
+    imagemagick \
+    gpsbabel \
     ssl-cert \
     php \
     libapache2-mod-php \
     php-mysql \
     php-curl \
-	php-calendar \
-	php-ctype \
-	php-date \
-	php-dom \
-	php-exif \
-	php-fileinfo \
-	php-ftp \
+    php-calendar \
+    php-ctype \
+    php-date \
+    php-dom \
+    php-exif \
+    php-fileinfo \
+    php-ftp \
     php-gd \
-	php-iconv \
+    php-iconv \
     php-intl \
     php-pear \
     php-imagick \
     php-imap \
-	php-json \
-	php-ldap \
+    php-json \
+    php-ldap \
     php-memcache \
     php-pspell \
     php-recode \
@@ -46,39 +46,39 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     php-xmlrpc \
     php-xsl \
     php-mbstring \
-	php-mysqli \
-	php-mysqlnd \
-	php-posix \
+    php-mysqli \
+    php-mysqlnd \
+    php-posix \
     php-gettext \
     php-opcache \
     php-apcu \
-	php-redis \
-	php-zip \
-	php-dompdf \
-	php-xml \
-	smbclient \
-	wget \
+    php-redis \
+    php-zip \
+    php-dompdf \
+    php-xml \
+    smbclient \
+    wget \
     unzip \
-	sudo \
+    sudo \
     && a2enmod ssl \
     && a2enmod rewrite \
     && a2enmod env \
-	&& a2enmod dir \
-	&& a2enmod mime \
-	&& a2enmod headers \
-	&& a2enmod setenvif \
+    && a2enmod dir \
+    && a2enmod mime \
+    && a2enmod headers \
+    && a2enmod setenvif \
     && a2dissite 000-default \
-	&& phpenmod imap \
+    && phpenmod imap \
     && mkdir /crt \
     && chmod 750 /crt \
     && openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /crt/nextcloud.key -out /crt/nextcloud.crt -subj "/C=DE/ST=H/L=F/O=Nextcloud/OU=www.nextcloud.org/CN=nextcloud" \ 
     && chmod 640 /crt/* \
-    && wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip -O /tmp/nextcloud.zip \
+    && wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.3.zip -O /tmp/nextcloud.zip \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
     && mv /tmp/nextcloud /var/www/nextcloud \
     && chown -R www-data:www-data /var/www/nextcloud \
-	&& find /var/www/nextcloud/ -type d -exec chmod 750 {} \; \
+    && find /var/www/nextcloud/ -type d -exec chmod 750 {} \; \
     && find /var/www/nextcloud/ -type f -exec chmod 640 {} \; \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* /var/cache/* /var/tmp/* /tmp/* \
