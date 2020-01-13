@@ -6,6 +6,8 @@ ENV supervisor_conf /etc/supervisor/supervisord.conf
 ENV security_conf /etc/apache2/conf-available/security.conf
 ENV start_scripts_path /bin
 
+ENV NC_VERSION="17.0.2"
+
 # Update packages from baseimage
 RUN apt-get update -qq
 # Install and activate necessary software
@@ -73,7 +75,7 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     && chmod 750 /crt \
     && openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /crt/nextcloud.key -out /crt/nextcloud.crt -subj "/C=DE/ST=H/L=F/O=Nextcloud/OU=www.nextcloud.org/CN=nextcloud" \ 
     && chmod 640 /crt/* \
-    && wget -q https://download.nextcloud.com/server/releases/nextcloud-17.0.2.zip -O /tmp/nextcloud.zip \
+    && wget -q https://download.nextcloud.com/server/releases/nextcloud-${NC_VERSION}.zip -O /tmp/nextcloud.zip \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
     && mv /tmp/nextcloud /var/www/nextcloud \
@@ -105,7 +107,7 @@ CMD ["/start.sh"]
        
 #Add Apache configuration
 COPY php.ini /etc/php/7.2/apache2/php.ini
-RUN echo "\napc.enable_cli=1" >> /etc/php/7.2/mods-available/apcu.ini
+#RUN echo "\napc.enable_cli=1" >> /etc/php/7.2/mods-available/apcu.ini
 COPY nextcloud.conf /etc/apache2/sites-available/nextcloud.conf
 RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 	&& a2ensite nextcloud
