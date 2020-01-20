@@ -3,5 +3,5 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=""
 
-*/5 * * * * www-data php -f /var/www/nextcloud/cron.php >/dev/stdout 2>&1
+*/5 * * * * root sudo -u www-data php -f /var/www/nextcloud/cron.php >/dev/stdout 2>&1
 30 5 * * * root /bin/05_run_app_update.sh >/dev/stdout 2>&1
