@@ -50,6 +50,7 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     php-mbstring \
     php-mysqli \
     php-mysqlnd \
+    php-pgsql \
     php-posix \
     php-gettext \
     php-opcache \
