@@ -101,6 +101,7 @@ COPY 04_run_occ_commands.sh ${start_scripts_path}
 COPY 05_run_app_update.sh ${start_scripts_path}
 
 COPY start.sh /start.sh
+COPY policy.xml /etc/ImageMagick-6/policy.xml
 RUN chmod +x ${start_scripts_path}/01_user_config.sh \
     && chmod +x ${start_scripts_path}/02_auto_update.sh \
     && chmod +x ${start_scripts_path}/03_set_a2port.sh \
