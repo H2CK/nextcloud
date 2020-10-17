@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:20.04
 
 # Set correct environment variables
 ENV DEBIAN_FRONTEND="noninteractive" HOME="/root" LC_ALL="C.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
@@ -6,7 +6,7 @@ ENV supervisor_conf /etc/supervisor/supervisord.conf
 ENV security_conf /etc/apache2/conf-available/security.conf
 ENV start_scripts_path /bin
 
-ENV NC_VERSION="19.0.4"
+ENV NC_VERSION="20.0.0"
 
 # Update packages from baseimage
 RUN apt-get update -qq
@@ -43,7 +43,6 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     php-ldap \
     php-memcache \
     php-pspell \
-    php-recode \
     php-sqlite3 \
     php-tidy \
     php-xmlrpc \
@@ -53,7 +52,6 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     php-mysqlnd \
     php-pgsql \
     php-posix \
-    php-gettext \
     php-opcache \
     php-apcu \
     php-redis \
@@ -112,8 +110,7 @@ RUN chmod +x ${start_scripts_path}/01_user_config.sh \
 CMD ["/start.sh"]
        
 #Add Apache configuration
-COPY php.ini /etc/php/7.2/apache2/php.ini
-#RUN echo "\napc.enable_cli=1" >> /etc/php/7.2/mods-available/apcu.ini
+COPY php.ini /etc/php/7.4/apache2/php.ini
 COPY nextcloud.conf /etc/apache2/sites-available/nextcloud.conf
 RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 	&& a2ensite nextcloud
