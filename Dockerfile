@@ -81,10 +81,10 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     && wget -q https://download.nextcloud.com/server/releases/nextcloud-${NC_VERSION}.zip -O /tmp/nextcloud.zip \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
-    && mv /tmp/nextcloud /var/www/nextcloud \
+    && mv /tmp/nextcloud /var/www/html \
     && chown -R www-data:www-data /var/www/nextcloud \
-    && find /var/www/nextcloud/ -type d -exec chmod 750 {} \; \
-    && find /var/www/nextcloud/ -type f -exec chmod 640 {} \; \
+    && find /var/www/html/ -type d -exec chmod 750 {} \; \
+    && find /var/www/html/ -type f -exec chmod 640 {} \; \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* /var/cache/* /var/tmp/* /tmp/* \
     && groupadd docker-data \
@@ -120,6 +120,6 @@ COPY nextcloud_insecure.conf /ncapache_insecure.conf
 	
 COPY nextcloud.cron /etc/cron.d/nextcloud
 
-VOLUME /var/www/nextcloud/data /var/www/nextcloud/config /var/www/nextcloud/capps
+VOLUME /var/www/html/data /var/www/html/config /var/www/html/capps
 
 EXPOSE 443/tcp
