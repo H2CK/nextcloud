@@ -82,7 +82,7 @@ RUN apt-get upgrade -qy && apt-get install -qy \
     && unzip -d /tmp/ -o /tmp/nextcloud.zip \
     && rm -Rf /var/www/html \
     && mv /tmp/nextcloud /var/www/html \
-    && chown -R www-data:www-data /var/www/nextcloud \
+    && chown -R www-data:www-data /var/www/html \
     && find /var/www/html/ -type d -exec chmod 750 {} \; \
     && find /var/www/html/ -type f -exec chmod 640 {} \; \
     && apt-get clean -y \
