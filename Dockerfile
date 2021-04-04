@@ -120,6 +120,6 @@ COPY nextcloud_insecure.conf /ncapache_insecure.conf
 	
 COPY nextcloud.cron /etc/cron.d/nextcloud
 
-VOLUME /var/www/html/data /var/www/html/config /var/www/html/capps
+VOLUME /var/www/html/data /var/www/html/config /var/www/html/custom_apps
 
 EXPOSE 443/tcp
