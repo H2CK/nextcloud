@@ -26,7 +26,7 @@ on:
 
 env:
   QEMU_VERSION: "v5.1.0-7"
-  DOCKER_FILE: Dockerfile.github
+  DOCKER_FILE: Dockerfile
   COMMIT_SHA: ${{ github.sha }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USER }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
