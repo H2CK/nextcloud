@@ -3,8 +3,8 @@
 # Any commit leads to building the docker container and testing the container
 # Handling of tags:
 # - v1.2.3-1      -> tagged as dtjs48jkt/nextcloud:v1.2.3-1, pushed to docker hub, manifest created with latest
-# - v1.2.3-1-test -> (contains test) tagged as dtjs48jkt/nextcloud-dev:v1.2.3-1-test, pushed to docker hub, manifest created with test
-# - v1.2.3-1-beta -> (contains beta) tagged as dtjs48jkt/nextcloud-dev:v1.2.3-1-beta, pushed to docker hub, manifest created with beta
+# - v1.2.3-1-test -> (contains test) tagged as dtjs48jkt/nextcloud:v1.2.3-1-test, pushed to docker hub, manifest created with test
+# - v1.2.3-1-beta -> (contains beta) tagged as dtjs48jkt/nextcloud:v1.2.3-1-beta, pushed to docker hub, manifest created with beta
 # Supported characters in tag [a-zA-Z0-9\.-]
 
 name: "Build Nextcloud"
@@ -57,7 +57,7 @@ jobs:
           TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g")
           echo "BRANCH: ${BRANCH}"
           echo "TAG: ${TAG}"
-          echo ::set-output name=TARGET::${DOCKER_USERNAME}/nextcloud-dev
+          echo ::set-output name=TARGET::${DOCKER_USERNAME}/nextcloud
           echo ::set-output name=BUILD_VERSION::$(echo ${GITHUB_SHA} | cut -c1-8)
           echo ::set-output name=BUILD_DATE::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=NC_VERSION::$(grep -oE 'NC_VERSION=(\w*.\w*.\w*)' Dockerfile | cut -d= -f2)
