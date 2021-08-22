@@ -77,7 +77,7 @@ jobs:
           BUILD_DATE: ${{ steps.prep.outputs.BUILD_DATE }}
           BUILD_REF: ${{ env.COMMIT_SHA }}
           TARGET: ${{ steps.prep.outputs.TARGET }}
-          WT_VERSION: ${{ steps.prep.outputs.NC_VERSION }}
+          NC_VERSION: ${{ steps.prep.outputs.NC_VERSION }}
         run: |
           echo "BUILD_VERSION: $BUILD_VERSION"
           echo BUILD_DATE: $BUILD_DATE
