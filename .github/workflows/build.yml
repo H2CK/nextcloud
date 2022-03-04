@@ -2,9 +2,9 @@
 # Behaviour:
 # Any commit leads to building the docker container and testing the container
 # Handling of tags:
-# - v1.2.3-1      -> tagged as dtjs48jkt/nextcloud:v1.2.3-1, pushed to docker hub, manifest created with latest
-# - v1.2.3-1-test -> (contains test) tagged as dtjs48jkt/nextcloud:v1.2.3-1-test, pushed to docker hub, manifest created with test
-# - v1.2.3-1-beta -> (contains beta) tagged as dtjs48jkt/nextcloud:v1.2.3-1-beta, pushed to docker hub, manifest created with beta
+# - 1.2.3      -> tagged as dtjs48jkt/nextcloud:1.2.3, pushed to docker hub, manifest created with latest
+# - 1.2.3-test -> (contains test) tagged as dtjs48jkt/nextcloud:v1.2.3-1-test, pushed to docker hub, manifest created with test
+# - 1.2.3-beta -> (contains beta) tagged as dtjs48jkt/nextcloud:v1.2.3-1-beta, pushed to docker hub, manifest created with beta
 # Supported characters in tag [a-zA-Z0-9\.-]
 
 name: "Build Nextcloud"
@@ -14,7 +14,7 @@ on:
     branches:
       - "*"
     tags:
-      - v[0-9]+.[0-9]+.[0-9]+**
+      - "[0-9]+.[0-9]+.[0-9]+**"
   pull_request:
     branches:
     - "*"
@@ -39,10 +39,10 @@ jobs:
        include:
         - arch: "amd64"
           qemu-arch: "x86_64"
-        - arch: "arm32v7"
-          qemu-arch: "arm"
-        - arch: "arm64v8"
-          qemu-arch: "aarch64"
+        # - arch: "arm32v7"
+        #   qemu-arch: "arm"
+        # - arch: "arm64v8"
+        #   qemu-arch: "aarch64"
         # - arch: "ppc64le"
         #   qemu-arch: "ppc64le"
         # - arch: "s390x"
@@ -61,11 +61,11 @@ jobs:
           echo ::set-output name=BUILD_VERSION::$(echo ${GITHUB_SHA} | cut -c1-8)
           echo ::set-output name=BUILD_DATE::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=NC_VERSION::$(grep -oE 'NC_VERSION=(\w*.\w*.\w*)' Dockerfile | cut -d= -f2)
-          if [[ "${TAG}" =~ ^v[0-9\.-]*$ ]]; then
-            echo ::set-output name=TARGET::${DOCKER_USERNAME}/nextcloud
-          fi
-          if [[ "${TAG}" =~ ^v[0-9\.-]*[a-zA-Z0-9\.-]+$ ]]; then
+          if [[ "${TAG}" =~ ^[[0-9]+.[0-9]+.[0-9]+.*$ ]]; then
             echo ::set-output name=BUILD_VERSION::${TAG}
+          fi
+          if [[ "${TAG}" =~ ^refs\/pull.*$ ]]; then
+            echo ::set-output name=BUILD_VERSION::build-pull
           fi
           chmod 775 docker.sh
           ./docker.sh prepare
@@ -97,7 +97,7 @@ jobs:
           NC_VERSION: ${{ steps.prep.outputs.NC_VERSION }}
         run: ./docker.sh test
       - name: "Push Docker Image"
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           ARCH: ${{ matrix.arch }}
           QEMU_ARCH: ${{ matrix.qemu-arch }}
@@ -107,7 +107,7 @@ jobs:
           TARGET: ${{ steps.prep.outputs.TARGET }}
           NC_VERSION: ${{ steps.prep.outputs.NC_VERSION }}
         run: |
-          if [[ "${{ env.BUILD_VERSION }}" =~ ^v[0-9\.-]*[a-zA-Z0-9\.-]*$ ]]; then
+          if [[ "${{ env.BUILD_VERSION }}" =~ ^[[0-9]+.[0-9]+.[0-9]+.*$ ]]; then
             ./docker.sh tag
             echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             ./docker.sh push
@@ -117,7 +117,7 @@ jobs:
   manifest:
     needs: build
     runs-on: ubuntu-20.04
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/')
 
     steps:
       - uses: actions/checkout@v2
@@ -132,10 +132,7 @@ jobs:
           echo ::set-output name=BUILD_VERSION::$(echo ${GITHUB_SHA} | cut -c1-8)
           echo ::set-output name=BUILD_DATE::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=NC_VERSION::$(grep -oE 'NC_VERSION=(\w*.\w*.\w*)' Dockerfile | cut -d= -f2)
-          if [[ "${TAG}" =~ ^v[0-9\.-]*$ ]]; then
-            echo ::set-output name=TARGET::${DOCKER_USERNAME}/nextcloud
-          fi
-          if [[ "${TAG}" =~ ^v[0-9\.-]*[a-zA-Z0-9\.-]+$ ]]; then
+          if [[ "${TAG}" =~ ^[[0-9]+.[0-9]+.[0-9]+.*$ ]]; then
             echo ::set-output name=BUILD_VERSION::${TAG}
           fi
           chmod 775 docker.sh
@@ -157,7 +154,7 @@ jobs:
           echo TARGET: ${{ env.TARGET }}
           echo COMMIT_SHA: ${{ env.COMMIT_SHA }}
           echo NC_VERSION: $NC_VERSION
-          if [[ "${{ env.BUILD_VERSION }}" =~ ^v[0-9\.-]*[a-zA-Z0-9\.-]*$ ]]; then
+          if [[ "${{ env.BUILD_VERSION }}" =~ ^[[0-9]+.[0-9]+.[0-9]+.*$ ]]; then
             echo Writing Manifest.
             echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             ./docker.sh manifest-list-version
