@@ -128,7 +128,7 @@ jobs:
           TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g")
           echo "BRANCH: ${BRANCH}"
           echo "TAG: ${TAG}"
-          echo ::set-output name=TARGET::${DOCKER_USERNAME}/nextcloud-dev
+          echo ::set-output name=TARGET::${DOCKER_USERNAME}/nextcloud
           echo ::set-output name=BUILD_VERSION::$(echo ${GITHUB_SHA} | cut -c1-8)
           echo ::set-output name=BUILD_DATE::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=NC_VERSION::$(grep -oE 'NC_VERSION=(\w*.\w*.\w*)' Dockerfile | cut -d= -f2)
