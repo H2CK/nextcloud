@@ -2,5 +2,5 @@
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-*/5 * * * * www-data php -f /var/www/html/cron.php
+*/5 * * * * www-data php --define apc.enable_cli=1 -f /var/www/html/cron.php
 30 5 * * * root /bin/05_run_app_update.sh
