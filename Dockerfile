@@ -6,7 +6,7 @@ ENV supervisor_conf /etc/supervisor/supervisord.conf
 ENV security_conf /etc/apache2/conf-available/security.conf
 ENV start_scripts_path /bin
 
-ENV NC_VERSION=23.0.6
+ENV NC_VERSION=23.0.7
 
 # Update packages from baseimage
 RUN apt-get update -qq
