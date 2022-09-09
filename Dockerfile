@@ -117,6 +117,8 @@ RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 
 COPY nextcloud.conf /ncapache_secure.conf
 COPY nextcloud_insecure.conf /ncapache_insecure.conf
+
+COPY php_cli.ini /etc/php/7.4/cli/php.ini
 	
 COPY nextcloud.cron /etc/cron.d/nextcloud
 
