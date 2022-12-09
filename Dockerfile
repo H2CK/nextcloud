@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # Set correct environment variables
 ENV DEBIAN_FRONTEND="noninteractive" HOME="/root" LC_ALL="C.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
@@ -6,7 +6,7 @@ ENV supervisor_conf /etc/supervisor/supervisord.conf
 ENV security_conf /etc/apache2/conf-available/security.conf
 ENV start_scripts_path /bin
 
-ENV NC_VERSION=24.0.7
+ENV NC_VERSION=24.0.8
 
 # Update packages from baseimage
 RUN apt-get update -qq
@@ -110,7 +110,7 @@ RUN chmod +x ${start_scripts_path}/01_user_config.sh \
 CMD ["/start.sh"]
        
 #Add Apache configuration
-COPY php.ini /etc/php/7.4/apache2/php.ini
+COPY php.ini /etc/php/8.1/apache2/php.ini
 COPY nextcloud.conf /etc/apache2/sites-available/nextcloud.conf
 RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 	&& a2ensite nextcloud
@@ -118,7 +118,7 @@ RUN chmod 644 /etc/apache2/sites-available/nextcloud.conf \
 COPY nextcloud.conf /ncapache_secure.conf
 COPY nextcloud_insecure.conf /ncapache_insecure.conf
 
-COPY php_cli.ini /etc/php/7.4/cli/php.ini
+COPY php_cli.ini /etc/php/8.1/cli/php.ini
 	
 COPY nextcloud.cron /etc/cron.d/nextcloud
 
